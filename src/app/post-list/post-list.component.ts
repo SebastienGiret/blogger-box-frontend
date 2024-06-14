@@ -14,12 +14,13 @@ export class PostListComponent implements OnInit {
     constructor(private postService: PostService) { }
 
     ngOnInit(): void {
-        this.loadPosts();
-    }
-
-    loadPosts(): void {
-        this.postService.getPosts().subscribe(posts => {
-            this.posts = posts;
+        this.postService.getPosts().subscribe({next: (data: Post[]) => {
+            console.log('Posts fetched from backend:', data); // Ajouter un log ici
+            this.posts = data;
+          },
+          error: (err) => {
+            console.error('Error fetching posts:', err); // Ajouter un log d'erreur
+          }
         });
     }
 
